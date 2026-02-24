@@ -1,0 +1,13 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="agenda02.Views.NovoProduto"
+             Title="Novo Produto">
+
+    <StackLayout Margin="20" Spacing="15">
+        <Entry x:Name="txt_descricao" Placeholder="Descrição do Produto" />
+        <Entry x:Name="txt_quantidade" Placeholder="Quantidade" Keyboard="Numeric" />
+        <Entry x:Name="txt_preco" Placeholder="Preço" Keyboard="Numeric" />
+
+        <Button Text="Salvar Produto" Clicked="Button_Clicked" BackgroundColor="Blue" TextColor="White"/>
+    </StackLayout>
+</ContentPage>

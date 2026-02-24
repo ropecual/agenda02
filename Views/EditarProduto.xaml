@@ -1,0 +1,21 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="agenda02.Views.EditarProduto"
+             Title="Editar Produto">
+
+    <StackLayout Margin="20" Spacing="15">
+
+        <Label Text="Descrição:" FontAttributes="Bold" />
+        <Entry x:Name="txt_descricao" Text="{Binding Descricao}" />
+
+        <Label Text="Quantidade:" FontAttributes="Bold" />
+        <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Keyboard="Numeric" />
+
+        <Label Text="Preço (R$):" FontAttributes="Bold" />
+        <Entry x:Name="txt_preco" Text="{Binding Preco}" Keyboard="Numeric" />
+
+        <Button Text="Atualizar Produto" Clicked="btnAtualizar_Clicked" BackgroundColor="Green" TextColor="White" Margin="0,10,0,0"/>
+        <Button Text="Excluir Produto" Clicked="btnExcluir_Clicked" BackgroundColor="Red" TextColor="White"/>
+
+    </StackLayout>
+</ContentPage>

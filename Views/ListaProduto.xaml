@@ -1,0 +1,21 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="agenda02.Views.ListaProduto"
+             Title="Minhas Compras">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Novo +" Clicked="ToolbarItem_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Margin="10">
+        <SearchBar x:Name="txt_search" Placeholder="Buscar produto..." SearchButtonPressed="txt_search_SearchButtonPressed" />
+
+        <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Descricao}" Detail="{Binding Preco, StringFormat='R$ {0:F2}'}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+</ContentPage>
