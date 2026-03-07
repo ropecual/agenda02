@@ -8,7 +8,7 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout Margin="10">
-        <SearchBar x:Name="txt_search" Placeholder="Buscar produto..." SearchButtonPressed="txt_search_SearchButtonPressed" />
+        <SearchBar x:Name="txt_search" Placeholder="Buscar produto..." TextChanged="txt_search_TextChanged" />
 
         <ListView x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected">
             <ListView.ItemTemplate>
