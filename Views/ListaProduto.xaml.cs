@@ -72,5 +72,42 @@ namespace agenda02.Views
                 Navigation.PushAsync(new EditarProduto { BindingContext = produtoSelecionado });
             }
         }
+
+
+        private async void MenuItem_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                // Botão clicado
+                MenuItem selecionado = (MenuItem)sender;
+
+                // Descobre qual produto está ligado a este botão
+                Produto p = selecionado.BindingContext as Produto;
+
+                // Pergunta de confirmação (DisplayAlert)
+                bool confirma = await DisplayAlert("Tem Certeza?", $"Deseja remover {p.Descricao}?", "Sim", "Não");
+
+                if (confirma)
+                {
+                    // Exclui do banco
+                    await App.Db.Delete(p.Id);
+                    await DisplayAlert("Sucesso!", "Produto excluído", "OK");
+
+                    // Recarrega a lista para a interface atualizar
+                    var produtos = await App.Db.GetAll();
+                    lista.Clear();
+                    foreach (var item in produtos)
+                    {
+                        lista.Add(item);
+                    }
+                }
+            }
+            catch (Exception ex) // Tratamento de Erro
+            {
+                await DisplayAlert("Ops", ex.Message, "OK");
+            }
+        }
     }
+
+
 }
