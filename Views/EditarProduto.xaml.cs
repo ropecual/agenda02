@@ -13,19 +13,17 @@ namespace agenda02.Views
         {
             try
             {
-                // Puxa o produto que foi passado para a tela
                 Produto p = (Produto)BindingContext;
 
-                // Atualiza os valores com o que está digitado nos campos
                 p.Descricao = txt_descricao.Text;
                 p.Quantidade = Convert.ToDouble(txt_quantidade.Text);
                 p.Preco = Convert.ToDouble(txt_preco.Text);
+                p.Categoria = pck_categoria.SelectedItem?.ToString() ?? "Outros";
 
-                // Manda para o banco de dados atualizar
                 await App.Db.Update(p);
 
                 await DisplayAlert("Sucesso", "Produto atualizado com sucesso!", "OK");
-                await Navigation.PopAsync(); // Volta para a tela anterior
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
@@ -37,18 +35,15 @@ namespace agenda02.Views
         {
             try
             {
-                // Pede uma confirmação antes de apagar
                 bool confirma = await DisplayAlert("Confirmar", "Tem certeza que deseja excluir este produto?", "Sim", "Não");
 
                 if (confirma)
                 {
                     Produto p = (Produto)BindingContext;
-
-                    // Manda para o banco de dados excluir usando o ID
                     await App.Db.Delete(p.Id);
 
                     await DisplayAlert("Sucesso", "Produto excluído!", "OK");
-                    await Navigation.PopAsync(); // Volta para a lista
+                    await Navigation.PopAsync();
                 }
             }
             catch (Exception ex)

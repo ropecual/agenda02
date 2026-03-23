@@ -12,6 +12,12 @@ namespace agenda02.Views
             InitializeComponent();
         }
 
+        private void AtualizarTotal()
+        {
+            double total = lista.Sum(p => p.Preco * p.Quantidade);
+            lbl_total.Text = $"Total Gasto: R$ {total:F2}";
+        }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -24,6 +30,7 @@ namespace agenda02.Views
                     lista.Add(p);
                 }
                 lst_produtos.ItemsSource = lista;
+                AtualizarTotal();
             }
             catch (Exception ex)
             {
@@ -35,33 +42,17 @@ namespace agenda02.Views
         {
             Navigation.PushAsync(new NovoProduto());
         }
-        // Método anterior, aqui apertavamos o botão de busca e ele fazia a busca, agora vamos fazer a busca enquanto o usuário digita, usando o evento TextChanged
-        private async void txt_search_SearchButtonPressed(object sender, EventArgs e)
-        {
-            var busca = txt_search.Text;
-            var produtos = await App.Db.Search(busca);
-            lista.Clear();
-            foreach (var p in produtos)
-            {
-                lista.Add(p);
-            }
-        }
 
-        // Método novo, toda vez que o texto mudar, ele vai fazer a busca, sem precisar apertar o botão de busca
         private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Pega o texto novo a cada letra digitada
             string busca = e.NewTextValue;
-
-            // Chama a busca no banco (invoca a busca já feita no SQLiteDatabaseHelper)
             var produtos = await App.Db.Search(busca);
-
-            // Atualiza a lista na tela
             lista.Clear();
             foreach (var p in produtos)
             {
                 lista.Add(p);
             }
+            AtualizarTotal();
         }
 
         private void lst_produtos_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -73,41 +64,54 @@ namespace agenda02.Views
             }
         }
 
-
         private async void MenuItem_Clicked(object sender, EventArgs e)
         {
             try
             {
-                // Botão clicado
                 MenuItem selecionado = (MenuItem)sender;
-
-                // Descobre qual produto está ligado a este botão
                 Produto p = selecionado.BindingContext as Produto;
 
-                // Pergunta de confirmação (DisplayAlert)
                 bool confirma = await DisplayAlert("Tem Certeza?", $"Deseja remover {p.Descricao}?", "Sim", "Não");
 
                 if (confirma)
                 {
-                    // Exclui do banco
                     await App.Db.Delete(p.Id);
                     await DisplayAlert("Sucesso!", "Produto excluído", "OK");
 
-                    // Recarrega a lista para a interface atualizar
                     var produtos = await App.Db.GetAll();
                     lista.Clear();
                     foreach (var item in produtos)
                     {
                         lista.Add(item);
                     }
+                    AtualizarTotal();
                 }
             }
-            catch (Exception ex) // Tratamento de Erro
+            catch (Exception ex)
             {
                 await DisplayAlert("Ops", ex.Message, "OK");
             }
         }
+
+        private async void pck_filtro_categoria_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string categoriaSelecionada = pck_filtro_categoria.SelectedItem?.ToString();
+            var todosProdutos = await App.Db.GetAll();
+
+            lista.Clear();
+
+            var produtosFiltrados = todosProdutos;
+            if (categoriaSelecionada != "Todas" && !string.IsNullOrEmpty(categoriaSelecionada))
+            {
+                produtosFiltrados = todosProdutos.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
+
+            foreach (var p in produtosFiltrados)
+            {
+                lista.Add(p);
+            }
+
+            AtualizarTotal();
+        }
     }
-
-
 }

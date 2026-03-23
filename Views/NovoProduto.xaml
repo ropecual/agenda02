@@ -8,6 +8,18 @@
         <Entry x:Name="txt_quantidade" Placeholder="Quantidade" Keyboard="Numeric" />
         <Entry x:Name="txt_preco" Placeholder="Preço" Keyboard="Numeric" />
 
+        <Picker x:Name="pck_categoria" Title="Selecione a Categoria">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Alimentos</x:String>
+                    <x:String>Higiene</x:String>
+                    <x:String>Limpeza</x:String>
+                    <x:String>Pets</x:String>
+                    <x:String>Outros</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
         <Button Text="Salvar Produto" Clicked="Button_Clicked" BackgroundColor="Blue" TextColor="White"/>
     </StackLayout>
 </ContentPage>

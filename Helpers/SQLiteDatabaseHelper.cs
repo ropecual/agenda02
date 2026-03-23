@@ -20,10 +20,10 @@ namespace agenda02.Helpers
 
         public Task<List<Produto>> Update(Produto p)
         {
-            string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=? WHERE Id=?";
+            string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=?, Categoria=? WHERE Id=?";
 
             return _conn.QueryAsync<Produto>(
-                sql, p.Descricao, p.Quantidade, p.Preco, p.Id
+                sql, p.Descricao, p.Quantidade, p.Preco, p.Categoria, p.Id
             );
         }
 
@@ -36,11 +36,10 @@ namespace agenda02.Helpers
         {
             return _conn.Table<Produto>().ToListAsync();
         }
-        // Correção do select
+
         public Task<List<Produto>> Search(string q)
         {
             string sql = "SELECT * FROM Produto WHERE descricao LIKE '%" + q + "%'";
-
             return _conn.QueryAsync<Produto>(sql);
         }
     }

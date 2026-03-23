@@ -17,12 +17,13 @@ namespace agenda02.Views
                 {
                     Descricao = txt_descricao.Text,
                     Quantidade = Convert.ToDouble(txt_quantidade.Text),
-                    Preco = Convert.ToDouble(txt_preco.Text)
+                    Preco = Convert.ToDouble(txt_preco.Text),
+                    Categoria = pck_categoria.SelectedItem?.ToString() ?? "Outros"
                 };
 
                 await App.Db.Insert(p);
                 await DisplayAlert("Sucesso", "Produto inserido com sucesso!", "OK");
-                await Navigation.PopAsync(); // Volta para a lista
+                await Navigation.PopAsync();
             }
             catch (Exception ex)
             {
